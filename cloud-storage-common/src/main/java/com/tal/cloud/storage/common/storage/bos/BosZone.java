@@ -60,24 +60,4 @@ public class BosZone implements StorageZone, BosClientHandler {
 		this.client = new BosClient(config);
 	}
 
-	public static void main(String[] args) {
-		StorageConfig bosConf = new StorageConfig.Builder()
-							.setAccessKey("3d30addb6e214288ba811d960e1c0b02")
-							.setSecretKey("451c8d16e52a4e6ca00794c5b5d776f5")
-							.setEndpoint("http://bj.bcebos.com")
-							.setBucket("gc-stor")
-							.build();
-		StorageZone bos = BosZone.create(bosConf);
-		StorageFile bosFile = bos.create(new StorageFileNamer().bename("hello/world.jpg"));
-
-		StorageConfig localConf = new StorageConfig.Builder()
-								.setLocalPath("E:/lazycathome")
-								.setPrefixUrl("")
-								.build();
-		StorageZone local = LocalZone.create(localConf);
-		StorageFile localFile = local.lookup("/storages/jpg/20150703/4792ac267c498b2bfbb937f90d50bf02.jpg");
-
-		bosFile.write(localFile.openStream());
-	}
-
 }
