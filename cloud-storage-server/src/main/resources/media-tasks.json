@@ -1,0 +1,7 @@
+{
+	// 测试
+	"ABCDEFGHIJK": [
+		{ "operate": "TRANSFER_AUDIO", pipeline: "", preset: "mp3", mime: ".mp3" },
+		{ "operate": "TRANSFER_VIDEO", pipeline: "", preset: "mp4", mime: ".mp4" }
+	]
+}

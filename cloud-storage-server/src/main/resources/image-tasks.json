@@ -1,0 +1,14 @@
+{
+	// 测试
+	"ABCDEFGHIJK": [
+		{ "operate": "OPTIMIZE", "limitSize": { "width": 2200, "height": 100 } },
+		{ "operate": "SCALE", "minSize": { "width": 240, "height": 240 }, "maxSize": { "width": 600, "height": 600 } },
+		{ "operate": "SPECIFIC", "size": { "width": 640, "height": 640 } },
+		{ "operate": "SPECIFIC", "size": { "width": 360, "height": 360 } },
+		{ "operate": "SPECIFIC", "size": { "width": 258, "height": 258 } },
+		{ "operate": "SPECIFIC", "size": { "width": 150, "height": 150 } },
+		{ "operate": "SPECIFIC", "size": { "width": 100, "height": 100 } },
+		{ "operate": "SPECIFIC", "size": { "width": 200, "height": 150 } },
+		{ "operate": "SPECIFIC", "size": { "width": 75, "height": 150 } }
+	]
+}

@@ -1,0 +1,55 @@
+#storage suffix path
+server:
+  tomcat:
+    basedir: /data/app/storage/
+
+file:
+  upload:
+    dir: /data/app/storage/upload/
+
+media:
+  tasks:
+    ABCDEFGHIJK:
+      - operate: TRANSFER_AUDIO
+        pipeline:
+        preset: mp3
+        mime: .mp3
+      - operate: TRANSFER_VIDEO
+        pipeline:
+        preset: mp4
+        mime: .mp4
+  presets:
+    - mp3:
+    - mp4": -qscale 6
+
+auth:
+  customers:
+    ABCDEFGHIJK:
+      - clientId: ABCDEFGHIJK
+        clientName: 测试
+        domains:
+          - \*
+
+image:
+  tasks:
+    # 测试
+    ABCDEFGHIJK:
+      - operate: OPTIMIZE
+        limitSize:
+          width: 2200
+          height: 100
+      - operate: SCALE
+        minSize:
+          width: 240
+          height: 240
+        maxSize:
+          width: 600
+          height: 600
+      - operate: SPECIFIC
+        size:
+          width: 640
+          height: 640
+      - operate: SPECIFIC
+        size:
+          width: 360
+          height: 360

@@ -1,0 +1,9 @@
+{
+	"ABCDEFGHIJK" : {
+		"clientId" : "ABCDEFGHIJK",
+		"clientName" : "测试",
+		"domains" : [
+			"*"
+		]
+	}
+}

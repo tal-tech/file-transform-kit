@@ -1,0 +1,21 @@
+#storage suffix path
+server:
+  tomcat:
+    uri-encoding: utf-8
+  port: 9080
+
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: storage
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: true
+
+logging:
+  config:
+    classpath: logback-spring.xml
+

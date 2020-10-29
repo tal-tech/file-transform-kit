@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="encoding" value="UTF-8"/>
+    <springProperty scope="context" name="serverName" source="spring.application.name" defaultValue="server"/>
+    <springProperty scope="context" name="endpoint" source="ali.log.endpoint" defaultValue="cn-beijing.log.aliyuncs.com"/>
+    <springProperty scope="context" name="alibabaLevel" source="log.level.alibaba" defaultValue="ERROR"/>
+    <springProperty scope="context" name="xxlLevel" source="log.level.xxl" defaultValue="ERROR"/>
+    <springProperty scope="context" name="orgLevel" source="log.level.org" defaultValue="ERROR"/>
+
+    <if condition='!property("serverName").equalsIgnoreCase("bootstrap")'>
+        <then>
+            <!--为了防止进程退出时，内存中的数据丢失，请加上此选项-->
+            <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+            <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>logs/${serverName}-info.log</file>
+                <Append>true</Append>
+                <prudent>false</prudent>
+                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %5p %c.%M:%L - %m%n</pattern>
+                </encoder>
+                <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                    <fileNamePattern>logs/${serverName}-info.log.%d{yyyy-MM-dd}.%i</fileNamePattern>>
+                    <maxFileSize>512MB</maxFileSize>
+                    <maxHistory>15</maxHistory>
+                    <totalSizeCap>32GB</totalSizeCap>
+                </rollingPolicy>
+            </appender>
+            <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %5p %c.%M:%L - %m%n</pattern>
+                </encoder>
+            </appender>
+
+            <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <Append>true</Append>
+                <prudent>false</prudent>
+                <file>logs/${serverName}-error.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                    <fileNamePattern>logs/${serverName}-error.log.%d{yyyy-MM-dd}.%i</fileNamePattern>>
+                    <maxFileSize>512MB</maxFileSize>
+                    <maxHistory>15</maxHistory>
+                    <totalSizeCap>32GB</totalSizeCap>
+                </rollingPolicy>
+                <layout>
+                    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %5p %c.%M:%L - %m%n</pattern>
+                </layout>
+                <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                    <level>ERROR</level>
+                    <onMatch>ACCEPT</onMatch>
+                    <onMismatch>DENY</onMismatch>
+                </filter>
+            </appender>
+
+            <appender name="customizeAccessLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <File>logs/${serverName}-access.log</File>
+                <append>true</append>
+                <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                    <level>INFO</level>
+                    <onMatch>ACCEPT</onMatch>
+                    <onMismatch>DENY</onMismatch>
+                </filter>
+                <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                    <fileNamePattern>logs/${serverName}-access.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
+                    <maxFileSize>512MB</maxFileSize>
+                    <maxHistory>15</maxHistory>
+                    <totalSizeCap>32GB</totalSizeCap>
+                </rollingPolicy>
+                <encoder charset="UTF-8">
+                    <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] %msg%n</pattern>
+                    <charset>UTF-8</charset>
+                </encoder>
+            </appender>
+
+            <logger name="customize_access_log" additivity="false" level="INFO">
+                <appender-ref ref="customizeAccessLogAppender"/>
+            </logger>
+
+            <logger name="com.xxl" level="${xxlLevel}"/>
+
+            <logger name="org" level="${orgLevel}"/>
+
+            <logger name="com.alibaba" level="${alibabaLevel}"/>
+
+            <!-- 可用来获取StatusManager中的状态 -->
+            <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+
+            <root level="INFO">
+
+                <springProfile name="dev, test, yace">
+                    <appender-ref ref="logHubAppender"/>
+                </springProfile>
+
+                <springProfile name="local, dev">
+                    <appender-ref ref="STDOUT"/>
+                </springProfile>
+
+                <appender-ref ref="FILE"/>
+
+                <appender-ref ref="ERROR_FILE"/>
+
+            </root>
+        </then>
+    </if>
+</configuration>

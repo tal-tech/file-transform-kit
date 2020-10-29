@@ -1,0 +1,30 @@
+div.gucontainer {
+	position: absolute;
+	left: -1px;
+	top: -1px;
+	width: 400px;
+	height: 300px;
+	border: 1px solid gray;
+	background-color: whitesmoke;
+}
+
+div.hide {
+	display: none;
+}
+
+div.gucontainer .caption {
+	display: inherit;
+	height: 20px;
+	padding: 8px;
+	font: caption;
+	color: black;
+	background-color: antiquewhite;
+}
+
+div.gucontainer span {
+	float: right;
+	cursor: pointer;
+}
+
+iframe.guiframe {
+}

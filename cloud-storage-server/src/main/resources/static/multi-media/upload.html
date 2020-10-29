@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link href="jssdk/tcs.upload.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+<br><br><br><br><br><br><br><br>
+<label style="margin-left: 200px;">上传范例</label>
+<br>
+<div style="margin-left: 200px; line-height: 200%;"><input id="upi" type="button" value="上传图片" onclick="javascript:upi();" /></div>
+<div style="margin-left: 200px; line-height: 200%;"><input id="upa" type="button" value="上传音频" onclick="javascript:upa();" /></div>
+<div style="margin-left: 200px; line-height: 200%;"><input id="upv" type="button" value="上传视频" onclick="javascript:upv();" /></div>
+<div style="margin-left: 200px; line-height: 200%;"><input id="upm" type="button" value="上传文件" onclick="javascript:upm();" /></div>
+<p>上传图片（指定容器）：</p>
+<div id="up" style="width: 500px; height: 300px;"></div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="jssdk/tcs.upload.js" type="text/javascript"></script>
+<script>
+    var ui = new TCS.Uploader(function(data){
+        alert(JSON.stringify(data));
+    }, { clientId: 'ABCDEFGHIJK', center: false });
+
+    var ua = new TCS.Uploader(function(data){
+        alert(JSON.stringify(data));
+    }, { clientId: 'ABCDEFGHIJK', type: 'audio' });
+
+    var uv = new TCS.Uploader(function(data){
+        alert(JSON.stringify(data));
+    }, { clientId: 'ABCDEFGHIJK', type: 'video' });
+
+    var um = new TCS.Uploader(function(data){
+        alert(JSON.stringify(data));
+    }, { clientId: 'ABCDEFGHIJK', type: 'misc' });
+
+    var uc = new TCS.Uploader('up', function(data){
+        alert(JSON.stringify(data));
+    }, { clientId: 'ABCDEFGHIJK' });
+
+    function upi() { ui.upload(); }
+    function upa() { ua.upload(); }
+    function upv() { uv.upload(); }
+    function upm() { um.upload(); }
+</script>
+</body>
+</html>
