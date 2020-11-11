@@ -52,9 +52,7 @@ public class VideoProcessor extends DefaultProcessor {
 			log.info("   %s, %d bytes --> %s", fileName, file.length(), filePath);
 
 			Video video = new Video();
-
 			video.setName(fileName);
-			video.setUrl(storFile.getUrl());
 
 			r.addFile(video);
 
@@ -62,9 +60,8 @@ public class VideoProcessor extends DefaultProcessor {
 
 			try {
 				storFile.write(new FileInputStream(file), mime);
-
+				video.setUrl(storFile.getUrl());
 				file.delete();
-
 			} catch (IOException e) {
 				log.error(e.getMessage());
 			}
@@ -80,6 +77,8 @@ public class VideoProcessor extends DefaultProcessor {
 
 					case Mct.OPERATE_THUMBNAIL:
 						mct.thumbnail(filePath, task.getMime());
+						break;
+					default:
 						break;
 					}
 				}

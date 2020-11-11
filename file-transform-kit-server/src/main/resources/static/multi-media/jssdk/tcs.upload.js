@@ -177,9 +177,9 @@
 			this.containerElem = null;
 			this.innerContainer = null;
 			// 本机环境
-            // this.uploadUrl = '//localhost:9080/multi-media/';
+            this.uploadUrl = '//localhost:9080/multi-media/';
             // 测试环境
-            this.uploadUrl = '//tcs-en-beta.speiyou.com/multi-media/';
+            // this.uploadUrl = '//tcs-en-beta.speiyou.com/multi-media/';
             // 生产环境
 			// this.uploadUrl = '//tcs-en.speiyou.com/multi-media/';
 			this.iframeId = null;

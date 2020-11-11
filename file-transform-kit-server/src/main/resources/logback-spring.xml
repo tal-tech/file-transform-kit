@@ -52,30 +52,6 @@
                 </filter>
             </appender>
 
-            <appender name="customizeAccessLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <File>logs/${serverName}-access.log</File>
-                <append>true</append>
-                <filter class="ch.qos.logback.classic.filter.LevelFilter">
-                    <level>INFO</level>
-                    <onMatch>ACCEPT</onMatch>
-                    <onMismatch>DENY</onMismatch>
-                </filter>
-                <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-                    <fileNamePattern>logs/${serverName}-access.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
-                    <maxFileSize>512MB</maxFileSize>
-                    <maxHistory>15</maxHistory>
-                    <totalSizeCap>32GB</totalSizeCap>
-                </rollingPolicy>
-                <encoder charset="UTF-8">
-                    <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] %msg%n</pattern>
-                    <charset>UTF-8</charset>
-                </encoder>
-            </appender>
-
-            <logger name="customize_access_log" additivity="false" level="INFO">
-                <appender-ref ref="customizeAccessLogAppender"/>
-            </logger>
-
             <logger name="com.xxl" level="${xxlLevel}"/>
 
             <logger name="org" level="${orgLevel}"/>
@@ -86,10 +62,6 @@
             <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
 
             <root level="INFO">
-
-                <springProfile name="dev, test, yace">
-                    <appender-ref ref="logHubAppender"/>
-                </springProfile>
 
                 <springProfile name="local, dev">
                     <appender-ref ref="STDOUT"/>

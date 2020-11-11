@@ -36,15 +36,15 @@ public class MiscProcessor extends DefaultProcessor {
 			Misc misc = new Misc();
 
 			misc.setName(fileName);
-			misc.setUrl(storFile.getUrl());
+
 
 			r.addFile(misc);
 
 			Mime mime = MimeUtils.find(FilenameUtils.getExt(fileName));
 
 			try {
-				storFile.write(new FileInputStream(file), mime);
-
+				storFile.write(new FileInputStream(file), file.length(), mime);
+				misc.setUrl(storFile.getUrl());
 				file.delete();
 
 			} catch (IOException e) {

@@ -54,15 +54,14 @@ public class AudioProcessor extends DefaultProcessor {
 			Audio audio = new Audio();
 
 			audio.setName(fileName);
-			audio.setUrl(storFile.getUrl());
 
 			r.addFile(audio);
 
 			Mime mime = MimeUtils.find(FilenameUtils.getExt(fileName));
 
 			try {
-				storFile.write(new FileInputStream(file), mime);
-
+				storFile.write(new FileInputStream(file), file.length(), mime);
+				audio.setUrl(storFile.getUrl());
 				file.delete();
 
 			} catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.tal.file.transform.controller.processor;
 
+import com.tal.file.transform.entity.Audio;
 import com.tal.file.transform.entity.Image;
 import com.tal.file.transform.image.ImageTask;
 import com.tal.file.transform.image.ImageTasks;
@@ -24,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,22 +52,22 @@ public class ImageProcessor extends DefaultProcessor {
 	public UploadResult<Image> process(String clientId, List<File> files, StorageZone zone, StorageFileNamer fileNamer) {
 		UploadResult<Image> r = new UploadResult<Image>();
 		ImageJobs jobs = new ImageJobs(zone);
-		Map<String, String> fileNames = new HashMap<String, String>();
+
 		List<ImageTask> tasks = imageTasks.find(clientId);
 
 		for(int i = 0; i < files.size(); i ++) {
 			File file = files.get(i);
-			// liujt, 2015.12.8
+			// liujt, 2020.8.8
 			// 鉴于png的压缩率不高的原因，强制将png转换成jpeg格式，使最终生成的文件更小，确保下载速度
 			// 注：这个修改主要是因为掌门iOS版上传直播大列表图片时，png文件过大导致直播大列表打开太慢
-			//String fileName = file.getName().replace(".png", ".jpeg");
+
 			String fileName = file.getName();
 			String fileExts = FilenameUtils.getExt(fileName);
 
 			String filePath = "", bizName = "";
 			int jobType = JOB_ALL;
 
-			// liujt, 2019.5.19
+			// liujt, 2020.5.19
 			// 当上传的图片没有后缀时，给定默认后缀名
 			if(StringUtils.isBlank(fileExts)) {
 				fileExts = ".jpeg";
@@ -78,27 +80,24 @@ public class ImageProcessor extends DefaultProcessor {
 			    filePath = fileNamer.getFilePath() + fileName;
             }
 
-			StorageFile storFile = zone.create(filePath);
 			Image image = new Image();
-
 			image.setName(fileName);
-			image.setUrl(storFile.getUrl());
-
 			r.addFile(image);
 
-			filePath = storFile.getPath();
-
 			BufferedImage img = null;
+			Mime mime = MimeUtils.find(fileExts);
+			StorageFile storFile = zone.create(filePath);
 
 			try {
-				img = ImageIO.read(new FileInputStream(file));
+				InputStream inputStream = new FileInputStream(file);
+				img = ImageIO.read(inputStream);
+				storFile.write(inputStream, mime);
+				image.setUrl(storFile.getUrl());
 
+				file.delete();
 			} catch (IOException e) {
 				log.error(e.getMessage());
 			}
-
-			Mime mime = MimeUtils.find(fileExts);
-
 			switch(jobType) {
 			case JOB_ALL:
 			case JOB_ALL_WITHOUT_OPTIMIZE:
@@ -153,7 +152,8 @@ public class ImageProcessor extends DefaultProcessor {
 
 							t = ic.specific(img, w, h, specW, specH);
 							break;
-
+						default:
+							break;
 						}
 
 						jobs.add(t, filePath, bizName, mime);
@@ -162,13 +162,12 @@ public class ImageProcessor extends DefaultProcessor {
 				}
 
 				break;
-
 			case JOB_SAVE_ONLY:
 				jobs.add(img, filePath, bizName, mime);
 
 				ImageCore ic = new ImageCore();
 
-				// liujt, 2015.8.11
+				// liujt, 2020.8.11
 				// 根据缩略图生成更小尺寸的缩略图
 				Pattern specP = Pattern.compile("_r(\\d+)x(\\d+)$");
 				Matcher specM = specP.matcher(bizName);
@@ -192,6 +191,8 @@ public class ImageProcessor extends DefaultProcessor {
 						}
 					}
 				}
+				break;
+			default:
 				break;
 			}
 		}

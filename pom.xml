@@ -83,6 +83,30 @@
                 <version>1.2.3</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.csource</groupId>
+                <artifactId>fastdfs-client-java</artifactId>
+                <version>1.29-SANPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.janino</groupId>
+                <artifactId>janino</artifactId>
+                <version>2.6.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>6.0.17.Final</version>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 

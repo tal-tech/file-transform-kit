@@ -2,7 +2,7 @@
  * zyFile.js 基于 HTML5 文件上传的核心脚本 http://www.czlqibu.com
  * by zhangyan 2014-06-21   QQ : 623585268
  * 
- * 根据 zyFile.js 修改 liujt, 2015.6.12
+ * 根据 zyFile.js 修改 liujt, 2020.6.12
 */
 
 var tcsFile = {

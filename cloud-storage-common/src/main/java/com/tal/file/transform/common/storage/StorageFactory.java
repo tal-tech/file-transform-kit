@@ -24,7 +24,7 @@ public class StorageFactory {
 	 *
 	 */
 	public enum StorageProvider {
-		local("本地存储"), bos("百度BOS"), qiniu("七牛云存储"), ali("阿里云");
+		local("本地存储"), bos("百度BOS"), qiniu("七牛云存储"), ali("阿里云"), fastdfs("fastdfs");
 
 		StorageProvider(String name) { }
 	}
@@ -40,7 +40,7 @@ public class StorageFactory {
 		String pn = p.substring(0, 1).toUpperCase() + p.substring(1).toLowerCase();
 
 		try {
-			Class<?> clazz = Class.forName(String.format("com.xes.dtc.common.storage.%s.%sZone", pn.toLowerCase(), pn));
+			Class<?> clazz = Class.forName(String.format("com.tal.file.transform.common.storage.%s.%sZone", pn.toLowerCase(), pn));
 
 			Method method = clazz.getMethod("create", new Class[] { StorageConfig.class });
 			Object[] params = new StorageConfig[] { conf };

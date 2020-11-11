@@ -96,7 +96,7 @@ public class ImageJobs {
 
 		storFile.write(stream, mime);
 
-		log.info(String.format("// save cost: %d ms", System.currentTimeMillis() - startTime));
+		log.info(String.format("filePath:{} // save cost: %d ms", filePath, System.currentTimeMillis() - startTime));
 	}
 
 }
